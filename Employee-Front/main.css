@@ -2,7 +2,11 @@
   margin: 0px;
   padding: 0px;
 }
+body {
+  background-image: url("images/background.avif");
+}
 .navigation {
+  background-image: url("images/nav-background.jpg");
   width: 100%;
   height: 120px;
   background-color: rgba(0, 0, 0, 0.572);
@@ -27,40 +31,6 @@
   min-height: 50px;
 
   padding-right: 0px;
-}
-/* Side BAr */
-.sidebar {
-  position: fixed;
-  top: 0px;
-  left: -4000px;
-  height: 100vh;
-  width: 400px;
-  z-index: 999;
-  background-color: rgba(223, 22, 62, 0.664);
-  display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding-top: 20px;
-  transition: left 1s ease;
-}
-.sidebar li {
-  width: 100%;
-  font-size: 50px;
-  height: 70px;
-}
-.sidebar a {
-  min-width: 100%;
-  text-decoration: none;
-  display: block;
-}
-.sidebar a:hover {
-  background-color: aquamarine;
-}
-.sidebar img {
-  float: right;
-  min-width: 50px;
-  min-height: 50px;
 }
 .logOut {
   width: 140px;
@@ -102,4 +72,83 @@
   max-width: 40px;
   max-height: 40px;
   display: inline;
+}
+/* Side BAr */
+.sidebar {
+  position: fixed;
+  top: 0px;
+  left: -4000px;
+  height: 100vh;
+  width: 400px;
+  z-index: 999;
+  background-image: url("images/nav-background.jpg");
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 20px;
+  transition: left 1s ease;
+}
+.sidebar li {
+  width: 100%;
+  font-size: 50px;
+  height: 70px;
+}
+.sidebar a {
+  min-width: 100%;
+  text-decoration: none;
+  display: block;
+}
+.sidebar a:hover {
+  background-color: aquamarine;
+}
+.sidebar img {
+  float: right;
+  min-width: 50px;
+  min-height: 50px;
+}
+
+/* content section */
+#main-content {
+  margin-left: 400px;
+  margin-top: 10px;
+  width: 100%;
+}
+.text {
+  width: 33%;
+  float: left;
+  height: 100px;
+}
+.text p {
+  font-family: "Kode Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: bolder;
+  font-size: 50px;
+  font-style: normal;
+  color: rgb(255, 215, 0);
+}
+#main-content img {
+  max-width: 600px;
+  max-height: 600px;
+  display: inline;
+  border-radius: 50px;
+  filter: grayscale(0.4);
+  transition: 0.3s;
+}
+#main-content img:hover {
+  filter: grayscale(0);
+  transform: scale(1.1) rotate(3deg);
+}
+.light {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--x) var(--y),
+    transparent 10%,
+    rgba(0, 0, 0, 0.95)
+  );
 }
