@@ -32,7 +32,7 @@
 .sidebar {
   position: fixed;
   top: 0px;
-  left: 0;
+  left: -4000px;
   height: 100vh;
   width: 400px;
   z-index: 999;
@@ -41,18 +41,65 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 20px;
+  padding-top: 20px;
+  transition: left 1s ease;
 }
 .sidebar li {
   width: 100%;
   font-size: 50px;
+  height: 70px;
 }
 .sidebar a {
-  width: 100%;
+  min-width: 100%;
   text-decoration: none;
+  display: block;
+}
+.sidebar a:hover {
+  background-color: aquamarine;
 }
 .sidebar img {
   float: right;
   min-width: 50px;
   min-height: 50px;
+}
+.logOut {
+  width: 140px;
+  height: 60px;
+  outline: none;
+  background: transparent;
+  vertical-align: middle;
+  background-color: aqua;
+  border-radius: 25px;
+  align-items: center;
+  vertical-align: middle;
+}
+.logOut button {
+  background: transparent;
+  width: 100%;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 5px cyan, 0 0 25px cyan;
+  border-radius: 25px;
+}
+.logOut button:hover {
+  box-shadow: 0 0 100px rgb(255, 0, 234), 0 0 25px cyan;
+}
+.logOut button:active {
+  background-color: rgba(39, 229, 10, 0.846);
+  opacity: 0.7;
+}
+.logOut p {
+  display: inline;
+  vertical-align: 15px;
+  text-decoration: none;
+  color: red;
+  font-size: 20px;
+}
+
+.logOut img {
+  margin-left: 30px;
+  margin-top: 10px;
+  max-width: 40px;
+  max-height: 40px;
+  display: inline;
 }
