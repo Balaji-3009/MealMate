@@ -6,5 +6,9 @@ app = Flask(__name__)
 def index():
     return render_template('main.html')
 
+@app.route('/uploadMenu')
+def uploadMenu():
+    return render_template('uploadMenu.html')
+
 if __name__=='__main__':
     app.run(debug=True)
