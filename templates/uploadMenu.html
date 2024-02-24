@@ -1,3 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <br>
+    {{ form.item_name.label(class_="name-label") }}
+    {{ form.item_name(class_="name") }}
+    {{ form.item_price.label(class_="price-label") }}
+    {{ form.item_price(class_="price") }}
+    {{ form.image.label }}
+    {{ form.image() }}
+    {{ form.submit() }}
+</form>
+
 {% endblock %}
