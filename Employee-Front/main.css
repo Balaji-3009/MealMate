@@ -22,7 +22,8 @@ body {
 }
 .nav_img {
   height: 100px;
-  padding-left: 33%;
+  width: 33%;
+  padding-left: 30%;
   padding-right: 38%;
 }
 .nav_img img {
