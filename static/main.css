@@ -117,10 +117,7 @@ body {
   height: 30px;
   padding-top: 15px;
   padding-bottom: 15px;
-  border-right: rgb(4, 9, 98) 2px solid;
-  border-top: rgb(4, 9, 98) 2px solid;
-  border-bottom: rgb(4, 9, 98) 2px solid;
-  border-radius: 20px;
+  border-bottom: rgba(4, 9, 98, 0.5) 0.1px solid;
 
   /* padding-left: 30px; */
 }
@@ -142,9 +139,9 @@ body {
 }
 /* content section */
 #main-content {
-  margin-left: 300px;
+  margin-left: 200px;
   margin-top: 10px;
-  width: 70%;
+  width: 75%;
 }
 /* .text {
   width: 33%;
@@ -174,15 +171,16 @@ body {
 .title {
   text-align: center;
   padding-top: 100px;
-  padding-left:90px;
+  padding-left: 90px;
   font-size: 30px;
-  width: 60%;
-  height: 100vh;
+  width: 55%;
+  height: 400px;
   color: rgba(68, 179, 8, 0.882);
+  float: left;
 }
 .title-h2 {
   color: rgba(68, 179, 8, 0.882);
-  width: 300px;
+  width: 100%;
   font-size: 40px;
   font-family: font-family "Kode Mono", monospace;
   -webkit-text-stroke: 0.1vw rgb(241, 114, 17);
@@ -191,19 +189,6 @@ body {
   animation: animate 6s linear infinite;
   overflow: hidden;
 }
-/* .title-h2::before {
-  content: attr(data-text);
-  position: absolute;
-  top: 100;
-  left: 0;
-  width: 0;
-  height: 100%;
-  color: rgba(37, 179, 9, 0.813);
-  -webkit-text-stroke: 0vh gray;
-  border-right: 2px solid rgba(68, 179, 8, 0.882);
-  overflow: hidden;
-  animation: animate 6s linear infinite;
-} */
 @keyframes animate {
   0%,
   10%,
@@ -228,4 +213,29 @@ body {
     rgba(0, 0, 0, 0.95)
   );
 } */
-
+.content {
+  display: inline;
+  float: right;
+  width: 30%;
+  height: 300px;
+  font-size: 30px;
+  margin-top: 60px;
+  color: green;
+  font-family: "Kode Mono", monospace;
+  font-weight: bolder;
+  font-size: 30px;
+  font-style: normal;
+  animation: animate1 6s linear infinite;
+  overflow: hidden;
+}
+@keyframes animate1 {
+  0%,
+  10%,
+  100% {
+    height: 0;
+  }
+  70%,
+  90% {
+    height: 385px;
+  }
+}

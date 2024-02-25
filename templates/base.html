@@ -34,15 +34,16 @@
       </ul>
     </nav>
     <ul class="sidebar">
-        <a href="" onclick="hideSideBar(event)"
-          ><img src="static/X_icon.svg" alt=""
-        /></a>
-      <li><a href="">Pending Request</a></li>
+      <a href="" onclick="hideSideBar(event)"
+        ><img src="static/X_icon.svg" alt=""
+      /></a>
+      <li style="border-top: 0.1px solid rgba(4, 9, 98, 0.500)">
+        <a href="/">Pending Request</a>
+      </li>
       <li><a href="/uploadMenu">Menu Upload</a></li>
       <li><a href="">View orders</a></li>
     </ul>
-    {% block content %}
-    {% endblock %}
+    {% block content %} {% endblock %}
     <!-- <div class="light"></div> -->
   </body>
 </html>
