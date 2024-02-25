@@ -2,8 +2,17 @@
 {% block content %}
 
 {% for food in compMenu %}
+<br>
 <p>{{food.name}}</p>
-<p>{{food.price}}</p>
-<img src="static/food_pics/{{food.image}}" alt="">
+<p>Rs.{{food.price}}</p>
+<img src="static/food_pics/{{food.image}}" width="400" height="250">
+<p>Availability</p>
+<p>From {{food.from_time}} to {{food.to_time}}</p>
+<br>
+<a href="/deleteMenu/{{food.id}}">Delete</a>
+<a href="/updateTime/{{food.id}}">Update Time</a>
+<br><br>
+
+<hr>
 {% endfor %}
 {% endblock %}

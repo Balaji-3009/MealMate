@@ -5,10 +5,18 @@
     <br>
     {{ form.item_name.label(class_="name-label") }}
     {{ form.item_name(class_="name") }}
+    <br><br>
     {{ form.item_price.label(class_="price-label") }}
     {{ form.item_price(class_="price") }}
+    <br><br>
     {{ form.image.label }}
     {{ form.image() }}
+    <br><br>
+    {{ form.from_time.label }}
+    {{ form.from_time }}
+    {{ form.to_time.label }}
+    {{ form.to_time }}
+    <br><br>
     {{ form.submit() }}
 </form>
 
