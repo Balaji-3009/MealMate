@@ -35,7 +35,7 @@ class MenuForm(FlaskForm):
     
     item_name = StringField("Enter Item Name ")
     item_price = IntegerField("Enter Item Price ")
-    image = FileField("Upload item image")
+    image = FileField("Upload item image",validators=[FileAllowed(['jpg','png'])])
     submit = SubmitField("Add Item")
 
 @app.route('/')
@@ -51,10 +51,13 @@ def uploadMenu():
         price = form.item_price.data
         
         if form.image.data:
-            print("recieved image")
             item_name = name
             image = addimage(form.image.data,item_name)
             newItem = Menu(name,price,image)
+            db.session.add(newItem)
+            db.session.commit()
+        else:
+            newItem = Menu(name,price,'default.jpg')
             db.session.add(newItem)
             db.session.commit()
         return redirect(url_for('viewMenu'))
@@ -75,8 +78,8 @@ def addimage(uploaded_pic,item_name):
 
 @app.route('/viewMenu')
 def viewMenu():
-    
-    return render_template('viewMenu.html')
+    compMenu = Menu.query.all()
+    return render_template('viewMenu.html', compMenu=compMenu)
 
 if __name__=='__main__':
     app.run(debug=True)

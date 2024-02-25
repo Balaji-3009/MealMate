@@ -1,3 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+
+{% for food in compMenu %}
+<p>{{food.name}}</p>
+<p>{{food.price}}</p>
+<img src="static/food_pics/{{food.image}}" alt="">
+{% endfor %}
 {% endblock %}
