@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" >
     {{ form.hidden_tag() }}
     <br>
     {{ form.item_name.label(class_="name-label") }}

@@ -8,7 +8,7 @@ function showSideBar(event) {
     setTimeout(() => {
       sidebar.style.left = "0px";
     }, 0.1);
-    mainContent.style.marginLeft = "350px";
+    // mainContent.style.marginLeft = "350px";
   }
   event.preventDefault();
 }
@@ -21,7 +21,7 @@ function hideSideBar(event) {
     sidebar.style.display = "none";
   }, 500);
   setTimeout(() => {
-    mainContent.style.marginLeft = "200px";
+    // mainContent.style.marginLeft = "200px";
   }, 20);
   event.preventDefault();
 }
