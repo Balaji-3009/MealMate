@@ -1,12 +1,17 @@
 import os
-from flask import Flask,render_template,redirect,url_for,current_app
+from flask import Flask,render_template,redirect,url_for,current_app,request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf import FlaskForm
-from wtforms import StringField,IntegerField,FileField,SubmitField,TimeField
+from wtforms import StringField,IntegerField,FileField,SubmitField,TimeField,PasswordField
+from wtforms.validators import DataRequired,Email,EqualTo
+from wtforms import ValidationError
 from flask_wtf.file import FileAllowed,FileField
 from PIL import Image
 from datetime import datetime
+from werkzeug.security import generate_password_hash,check_password_hash
+from flask_login import UserMixin,LoginManager,login_user,current_user, logout_user, login_required
+import email_validator
 
 app = Flask(__name__)
 
@@ -18,6 +23,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 Migrate(app,db)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 class menu(db.Model):
     
@@ -40,6 +49,25 @@ class menu(db.Model):
         self.abs_from_time = abs_from_time
         self.abs_to_time = abs_to_time
         
+        
+@login_manager.user_loader
+def load_user(id):
+    return signup.query.get(id)
+
+class signup(db.Model,UserMixin):
+    
+    __tablename__ = "signup"
+    id = db.Column(db.Integer,primary_key=True)
+    email = db.Column(db.String)
+    password_hash = db.Column(db.String)
+    
+    def __init__(self,email,password):
+        self.email = email
+        self.password_hash = generate_password_hash(password)
+        
+    def check_password(self,password):
+        return check_password_hash(self.password_hash,password)
+            
 class MenuForm(FlaskForm):
     
     item_name = StringField("Enter Item Name ")
@@ -54,10 +82,62 @@ class UpdateTimeForm(FlaskForm):
     from_time = TimeField("From",format="%H:%M")
     to_time = TimeField("To",format="%H:%M")
     submit = SubmitField("Update Time")
+    
+class LoginForm(FlaskForm):
+    
+    email = StringField("Email", validators=[DataRequired(),Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
+    
+class SignupForm(FlaskForm):
+    
+    email = StringField("Email", validators=[DataRequired(),Email()])
+    password = PasswordField("Password", validators=[DataRequired(), EqualTo('confirm_pass',message='Password doesnot match')])
+    confirm_pass = PasswordField("Confirm Password", validators=[DataRequired()])
+    submit = SubmitField("SignUp")
+    
+    def check_email(self,field):
+        if signup.query.filter_by(email=field.data).first():
+            raise ValidationError("Email is already registered")
 
 @app.route('/')
 def index():
     return render_template('main.html')
+
+@app.route('/signup',methods=['GET','POST'])
+def Signup():
+    
+    form = SignupForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        user = signup(email,password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('signup.html',form=form)
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = signup.query.filter_by(email = form.email.data).first()
+        if user is not None:
+            if user.check_password(form.password.data):
+                login_user(user)
+                next = request.args.get('next')
+                if next==None or not next[0]=='/':
+                    next = url_for('customer')
+                return redirect(next)
+    return render_template('login.html',form=form)
+    
+@app.route('/logout')
+def logout():
+    
+    logout_user()
+    return redirect(url_for('login'))
+
 
 @app.route('/uploadMenu',methods=['GET','POST'])
 def uploadMenu():
@@ -134,6 +214,11 @@ def updateTime(id):
 def viewMenu():
     compMenu = menu.query.all()
     return render_template('viewMenu.html', compMenu=compMenu)
+
+@app.route('/customer')
+@login_required
+def customer():
+    return render_template('customer.html')
 
 if __name__=='__main__':
     app.run(debug=True)
