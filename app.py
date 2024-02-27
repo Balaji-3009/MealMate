@@ -28,6 +28,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 class menu(db.Model):
     
     __tablename__ = "menu"
@@ -60,13 +61,16 @@ class signup(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String)
     password_hash = db.Column(db.String)
+    role = db.Column(db.Text)
     
-    def __init__(self,email,password):
+    def __init__(self,email,password,role):
         self.email = email
         self.password_hash = generate_password_hash(password)
+        self.role = role
         
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
+ 
             
 class MenuForm(FlaskForm):
     
@@ -99,9 +103,30 @@ class SignupForm(FlaskForm):
     def check_email(self,field):
         if signup.query.filter_by(email=field.data).first():
             raise ValidationError("Email is already registered")
+        
+class emp_LoginForm(FlaskForm):
+    
+    email = StringField("Email", validators=[DataRequired(),Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
+    
+class emp_SignupForm(FlaskForm):
+    
+    email = StringField("Email", validators=[DataRequired(),Email()])
+    password = PasswordField("Password", validators=[DataRequired(), EqualTo('confirm_pass',message='Password doesnot match')])
+    confirm_pass = PasswordField("Confirm Password", validators=[DataRequired()])
+    submit = SubmitField("SignUp")
+    
+    def check_email(self,field):
+        if signup.query.filter_by(email=field.data).first():
+            raise ValidationError("Email is already registered")
 
 @app.route('/')
 def index():
+    return render_template('auth.html')
+
+@app.route('/employee')
+def employee():
     return render_template('main.html')
 
 @app.route('/signup',methods=['GET','POST'])
@@ -111,11 +136,26 @@ def Signup():
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
-        user = signup(email,password)
+        role = 'customer'
+        user = signup(email,password,role)
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('signup.html',form=form)
+
+@app.route('/emp_signup',methods=['GET','POST'])
+def emp_Signup():
+    
+    form = emp_SignupForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        role = 'employee'
+        user = signup(email,password,role)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('emp_login'))
+    return render_template('emp_signup.html',form=form)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -131,41 +171,59 @@ def login():
                     next = url_for('customer')
                 return redirect(next)
     return render_template('login.html',form=form)
+
+@app.route('/emp_login',methods=['GET','POST'])
+def emp_login():
+    
+    form = emp_LoginForm()
+    if form.validate_on_submit():
+        user = signup.query.filter_by(email = form.email.data).first()
+        if user is not None:
+            if user.check_password(form.password.data):
+                login_user(user)
+                next = request.args.get('next')
+                if next==None or not next[0]=='/':
+                    next = url_for('employee')
+                return redirect(next)
+    return render_template('emp_login.html',form=form)
     
 @app.route('/logout')
 def logout():
     
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 @app.route('/uploadMenu',methods=['GET','POST'])
+@login_required
 def uploadMenu():
-    
-    form = MenuForm()
-    Converted_from_time=0
-    Converted_to_time=0
-    if form.validate_on_submit():
-        name = form.item_name.data
-        price = form.item_price.data
-        f_time = form.from_time.data
-        t_time = form.to_time.data
-        d_from_time = datetime.strptime(str(f_time), "%H:%M:%S")
-        Converted_from_time = str(d_from_time.strftime("%I:%M %p"))
-        d_to_time = datetime.strptime(str(t_time), "%H:%M:%S")
-        Converted_to_time = str(d_to_time.strftime("%I:%M %p"))
-        if form.image.data:
-            item_name = name
-            image = addimage(form.image.data,item_name)
-            newItem = menu(name,price,image,Converted_from_time,Converted_to_time,f_time,t_time)
-            db.session.add(newItem)
-            db.session.commit()
-        else:
-            newItem = menu(name,price,'default.png',Converted_from_time,Converted_to_time,f_time,t_time)
-            db.session.add(newItem)
-            db.session.commit()
-        return redirect(url_for('viewMenu'))
-    return render_template('uploadMenu.html',form=form)
+    if current_user.role == 'employee':
+        form = MenuForm()
+        Converted_from_time=0
+        Converted_to_time=0
+        if form.validate_on_submit():
+            name = form.item_name.data
+            price = form.item_price.data
+            f_time = form.from_time.data
+            t_time = form.to_time.data
+            d_from_time = datetime.strptime(str(f_time), "%H:%M:%S")
+            Converted_from_time = str(d_from_time.strftime("%I:%M %p"))
+            d_to_time = datetime.strptime(str(t_time), "%H:%M:%S")
+            Converted_to_time = str(d_to_time.strftime("%I:%M %p"))
+            if form.image.data:
+                item_name = name
+                image = addimage(form.image.data,item_name)
+                newItem = menu(name,price,image,Converted_from_time,Converted_to_time,f_time,t_time)
+                db.session.add(newItem)
+                db.session.commit()
+            else:
+                newItem = menu(name,price,'default.png',Converted_from_time,Converted_to_time,f_time,t_time)
+                db.session.add(newItem)
+                db.session.commit()
+            return redirect(url_for('viewMenu'))
+        return render_template('uploadMenu.html',form=form)
+    else:
+        return 'Entry Restricted! Only Employees Allowed'
 
 def addimage(uploaded_pic,item_name):
     
@@ -181,44 +239,59 @@ def addimage(uploaded_pic,item_name):
     return storage_filename
 
 @app.route('/deleteMenu/<id>')
+@login_required
 def deleteMenu(id):
-    delete_item = menu.query.get(id)
-    print(delete_item)
-    db.session.delete(delete_item)
-    db.session.commit()
-    
-    return redirect(url_for('viewMenu'))
-
-@app.route('/updateTime/<id>',methods=['GET','POST'])
-def updateTime(id):
-    form = UpdateTimeForm()
-    if form.validate_on_submit():
-        updtTime = menu.query.get(id)
-        updateTime.abs_from_time = form.from_time.data
-        updateTime.abs_to_time = form.to_time.data
-        f_time = form.from_time.data
-        t_time = form.to_time.data
-        d_from_time = datetime.strptime(str(f_time), "%H:%M:%S")
-        Converted_from_time = str(d_from_time.strftime("%I:%M %p"))
-        d_to_time = datetime.strptime(str(t_time), "%H:%M:%S")
-        Converted_to_time = str(d_to_time.strftime("%I:%M %p"))
-        updtTime.from_time = Converted_from_time
-        updtTime.to_time = Converted_to_time
-        db.session.add(updtTime)
+    if current_user.is_authenticated and current_user.role == 'employee':
+        delete_item = menu.query.get(id)
+        print(delete_item)
+        db.session.delete(delete_item)
         db.session.commit()
         
         return redirect(url_for('viewMenu'))
-    return render_template('updateTime.html',form = form)
+    else:
+        return 'Entry Restricted! Only Employees Allowed'
+
+@app.route('/updateTime/<id>',methods=['GET','POST'])
+@login_required
+def updateTime(id):
+    if current_user.is_authenticated and current_user.role == 'employee':
+        form = UpdateTimeForm()
+        if form.validate_on_submit():
+            updtTime = menu.query.get(id)
+            updateTime.abs_from_time = form.from_time.data
+            updateTime.abs_to_time = form.to_time.data
+            f_time = form.from_time.data
+            t_time = form.to_time.data
+            d_from_time = datetime.strptime(str(f_time), "%H:%M:%S")
+            Converted_from_time = str(d_from_time.strftime("%I:%M %p"))
+            d_to_time = datetime.strptime(str(t_time), "%H:%M:%S")
+            Converted_to_time = str(d_to_time.strftime("%I:%M %p"))
+            updtTime.from_time = Converted_from_time
+            updtTime.to_time = Converted_to_time
+            db.session.add(updtTime)
+            db.session.commit()
+            
+            return redirect(url_for('viewMenu'))
+        return render_template('updateTime.html',form = form)
+    else:
+        return 'Entry Restricted! Only Employees Allowed'
 
 @app.route('/viewMenu')
+@login_required
 def viewMenu():
-    compMenu = menu.query.all()
-    return render_template('viewMenu.html', compMenu=compMenu)
+    if current_user.is_authenticated and current_user.role == 'employee':
+        compMenu = menu.query.all()
+        return render_template('viewMenu.html', compMenu=compMenu)
+    else:
+        return 'Entry Restricted! Only Employees Allowed'
 
 @app.route('/customer')
 @login_required
 def customer():
-    return render_template('customer.html')
+    if current_user.is_authenticated and current_user.role == 'customer':
+        return render_template('customer.html')
+    else:
+        return 'Only for Customers'
 
 if __name__=='__main__':
     app.run(debug=True)
