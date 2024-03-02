@@ -1,23 +1,30 @@
-{% extends 'base.html' %}
-{% block content %}
-<form method="POST" enctype="multipart/form-data" >
+{% extends 'base.html' %} {% block header1 %}
+<script src="static\scriptUploadMenu.js"></script>
+{% endblock %} {% block content %}
+<body class="upload_menu">
+  <form method="POST" enctype="multipart/form-data" class="upload_form">
+    <h1>Add Item to Menu</h1>
     {{ form.hidden_tag() }}
-    <br>
-    {{ form.item_name.label(class_="name-label") }}
-    {{ form.item_name(class_="name") }}
-    <br><br>
-    {{ form.item_price.label(class_="price-label") }}
-    {{ form.item_price(class_="price") }}
-    <br><br>
-    {{ form.image.label }}
-    {{ form.image() }}
-    <br><br>
-    {{ form.from_time.label }}
-    {{ form.from_time }}
-    {{ form.to_time.label }}
-    {{ form.to_time }}
-    <br><br>
-    {{ form.submit() }}
-</form>
-
+    <br />
+    <div></div>
+    <div class="name-input">
+      {{ form.item_name.label(class_="name-label") }} {{
+      form.item_name(class_="name") }}
+    </div>
+    <div class="price-input">
+      {{ form.item_price.label(class_="price-label") }} {{
+      form.item_price(class_="price") }}
+    </div>
+    <div class="img-input">
+      {{ form.image.label(class_="img_upload") }} {{ form.image(class_="img") }}
+    </div>
+    <div class="time-input">
+      {{ form.from_time.label (class_="from_time")}} {{
+      form.from_time(class_="from_time-input") }} <br />
+      {{ form.to_time.label(class_="to_time") }} {{ form.to_time
+      (class_="to_time-input")}}
+    </div>
+    <div class="sumbit-input">{{ form.submit(class_="sumbit-btn") }}</div>
+  </form>
+</body>
 {% endblock %}

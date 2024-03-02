@@ -11,14 +11,16 @@
       href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap"
       rel="stylesheet"
     />
-    <script src="static/script.js"></script>
+    <!-- <script src="static/script.js"></script> -->
+
+    {% block header2 %} {% endblock %}
   </head>
   <body>
     <nav class="navigation">
       <ul class="nav">
         <li class="menu_icon">
-          <a href="" onclick="showSideBar(event)"
-            ><img src="static/menu_icon.svg" alt=""
+          <a href="" onclick="showSideBar(event)" class="show_button"
+            ><img src="static/menu_icon.svg" alt="" class="show_button"
           /></a>
         </li>
         <li class="nav_img">
@@ -38,12 +40,14 @@
         ><img src="static/X_icon.svg" alt=""
       /></a>
       <li style="border-top: 0.1px solid rgba(4, 9, 98, 0.5)">
-        <a href="/employee">Pending Request</a>
+        <a href="/employee">Home</a>
       </li>
       <li><a href="/uploadMenu">Menu Upload</a></li>
-      <li><a href="/viewMenu">View orders</a></li>
+      <li><a href="/viewMenu">View Menu</a></li>
+      <li><a href="viewOrders">View Orders</a></li>
     </ul>
     {% block content %} {% endblock %}
     <!-- <div class="light"></div> -->
+    {% block header1 %} {% endblock %}
   </body>
 </html>
