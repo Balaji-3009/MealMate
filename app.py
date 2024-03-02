@@ -26,7 +26,7 @@ Migrate(app,db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'index'
+login_manager.login_view = 'login'
 
 
 class menu(db.Model):
@@ -76,7 +76,7 @@ class MenuForm(FlaskForm):
     
     item_name = StringField("Enter Item Name ")
     item_price = IntegerField("Enter Item Price ")
-    image = FileField("Upload item image (if available)",validators=[FileAllowed(['jpg','png'])])
+    image = FileField("Upload item image",validators=[FileAllowed(['jpg','png'])])
     from_time = TimeField("From",format="%H:%M")
     to_time = TimeField("To",format="%H:%M")
     submit = SubmitField("Add Item")
@@ -123,7 +123,7 @@ class emp_SignupForm(FlaskForm):
 
 @app.route('/')
 def index():
-    return render_template('auth.html')
+    return redirect(url_for('login'))
 
 @app.route('/employee')
 def employee():

@@ -6,6 +6,11 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="/login">Customer</a>&nbsp;&nbsp;
+    <a href="/emp_login">Employee</a>
+
+    <br><br>
+
     <form method="POST">
 
         {{ form.hidden_tag() }}
@@ -18,6 +23,9 @@
         {{ form.submit() }}
     
     </form>
-    
+    <p>Don't have an account?
+        <a href="/signup">Signup</a>
+    </p>
+
 </body>
 </html>

@@ -272,11 +272,12 @@ body {
 .name-label {
   margin-top: 10px;
   margin-right: 20px;
-  font-size: 30px;
+  font-size: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .name {
-  height: 30px;
-  width: 80%;
+  height: 25px;
+  width: 75%;
   margin-bottom: 10px;
 }
 .name-input {
@@ -292,11 +293,12 @@ body {
 .price-label {
   margin-top: 10px;
   margin-right: 20px;
-  font-size: 30px;
+  font-size: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .price {
-  height: 30px;
-  width: 80%;
+  height: 25px;
+  width: 75%;
   margin-bottom: 10px;
 }
 .img-input {
@@ -306,6 +308,8 @@ body {
   margin-bottom: 10px;
 }
 .img_upload {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
 }
 .img {
   width: 100%;
