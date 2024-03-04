@@ -71,7 +71,25 @@ class signup(db.Model,UserMixin):
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
  
-            
+
+class cart(db.Model):
+    
+    __tablename__ = "cart"
+    sno = db.Column(db.Integer,primary_key=True)
+    item_name = db.Column(db.Text)
+    item_price = db.Column(db.Integer)
+    quantity = db.Column(db.Integer,default=1)
+    image =  db.Column(db.Text, default='default.png')
+    customer = db.Column(db.Text)
+    
+    def __init__(self,item_name,item_price,quantity,image,customer):
+        self.item_name = item_name
+        self.item_price = item_price
+        self.quantity = quantity
+        self.image = image
+        self.customer = customer
+
+
 class MenuForm(FlaskForm):
     
     item_name = StringField("Enter Item Name ")
@@ -243,7 +261,6 @@ def addimage(uploaded_pic,item_name):
 def deleteMenu(id):
     if current_user.is_authenticated and current_user.role == 'employee':
         delete_item = menu.query.get(id)
-        print(delete_item)
         db.session.delete(delete_item)
         db.session.commit()
         
@@ -289,9 +306,51 @@ def viewMenu():
 @login_required
 def customer():
     if current_user.is_authenticated and current_user.role == 'customer':
-        return render_template('customer.html')
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        compMenu = menu.query.filter(menu.abs_from_time<=current_time,menu.abs_to_time>=current_time).all()
+        return render_template('customer_menu.html',compMenu=compMenu)
     else:
         return 'Only for Customers'
+    
+    
+@app.route('/add_to_cart/<id>')
+def add_to_cart(id):
+    item = menu.query.get(id)
+    item_name = item.name
+    item_price = item.price
+    quantity = 1
+    image = item.image
+    customer = current_user.email
+    add_cart = cart(item_name,item_price,quantity,image,customer)
+    db.session.add(add_cart)
+    db.session.commit()
+    return redirect(url_for('Cart'))
+
+
+@app.route('/cart')
+def Cart():
+    
+    if current_user.is_authenticated and current_user.role == 'customer':
+        email = current_user.email
+        items = cart.query.filter_by(customer=email)
+        return render_template('cart.html',items=items)
+    else:
+        return 'Only for Customers'
+    
+
+@app.route('/deleteCart/<sno>')
+@login_required
+def deleteCart(sno):
+    if current_user.is_authenticated and current_user.role == 'customer':
+        delete_item = cart.query.get(sno)
+        db.session.delete(delete_item)
+        db.session.commit()
+        
+        return redirect(url_for('Cart'))
+    else:
+        return 'Only for Customers'
+
 
 if __name__=='__main__':
     app.run(debug=True)
