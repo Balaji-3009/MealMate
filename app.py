@@ -107,13 +107,13 @@ class UpdateTimeForm(FlaskForm):
     
 class LoginForm(FlaskForm):
     
-    email = StringField("Email", validators=[DataRequired(),Email()])
+    email = StringField("Email", validators=[DataRequired(),Email()],render_kw={"autocomplete": "off"})
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
     
 class SignupForm(FlaskForm):
     
-    email = StringField("Email", validators=[DataRequired(),Email()])
+    email = StringField("Email", validators=[DataRequired(),Email()],render_kw={"autocomplete": "off"})
     password = PasswordField("Password", validators=[DataRequired(), EqualTo('confirm_pass',message='Password doesnot match')])
     confirm_pass = PasswordField("Confirm Password", validators=[DataRequired()])
     submit = SubmitField("SignUp")
@@ -124,13 +124,13 @@ class SignupForm(FlaskForm):
         
 class emp_LoginForm(FlaskForm):
     
-    email = StringField("Email", validators=[DataRequired(),Email()])
+    email = StringField("Email", validators=[DataRequired(),Email()],render_kw={"autocomplete": "off"})
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
     
 class emp_SignupForm(FlaskForm):
     
-    email = StringField("Email", validators=[DataRequired(),Email()])
+    email = StringField("Email", validators=[DataRequired(),Email()],render_kw={"autocomplete": "off"})
     password = PasswordField("Password", validators=[DataRequired(), EqualTo('confirm_pass',message='Password doesnot match')])
     confirm_pass = PasswordField("Confirm Password", validators=[DataRequired()])
     submit = SubmitField("SignUp")
@@ -275,8 +275,8 @@ def updateTime(id):
         form = UpdateTimeForm()
         if form.validate_on_submit():
             updtTime = menu.query.get(id)
-            updateTime.abs_from_time = form.from_time.data
-            updateTime.abs_to_time = form.to_time.data
+            updtTime.abs_from_time = form.from_time.data
+            updtTime.abs_to_time = form.to_time.data
             f_time = form.from_time.data
             t_time = form.to_time.data
             d_from_time = datetime.strptime(str(f_time), "%H:%M:%S")
