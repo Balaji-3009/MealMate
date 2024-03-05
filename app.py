@@ -422,5 +422,22 @@ def viewOrders():
         return 'Entry Restricted! Only Employees Allowed'
 
 
+@app.route('/pendingOrders')
+@login_required
+def pendingOrders():
+    if current_user.is_authenticated and current_user.role == 'customer':
+        list_of_orders = []
+        email = current_user.email
+        all_orders = orders.query.filter_by(email=email)
+        for order_ in all_orders:
+            email = order_.email
+            items = json.loads(order_.order)
+            price = order_.total_price
+            list_of_orders.append([email,items,price])
+        return render_template('pendingOrders.html',list_of_orders = list_of_orders)
+    else:
+        return 'Only for Customers'
+
+
 if __name__=='__main__':
     app.run(debug=True)
