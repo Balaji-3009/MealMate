@@ -352,7 +352,13 @@ def Cart():
     if current_user.is_authenticated and current_user.role == 'customer':
         email = current_user.email
         items = cart.query.filter_by(customer=email)
-        return render_template('cart.html',items=items)
+        count = 0
+        for i in items:
+            count+=1
+        if count>0:
+            return render_template('cart.html',items=items)
+        else:
+            return "Cart Empty"
     else:
         return 'Only for Customers'
     
@@ -400,6 +406,9 @@ def placeOrder():
         new_order = orders(email,order,final_price)
         db.session.add(new_order)
         db.session.commit()
+        for item in items:
+            db.session.delete(item)
+            db.session.commit()
         return redirect(url_for('customer'))
         
     else:
@@ -413,10 +422,11 @@ def viewOrders():
         list_of_orders = []
         all_orders = orders.query.all()
         for order_ in all_orders:
+            id = order_.id
             email = order_.email
             items = json.loads(order_.order)
             price = order_.total_price
-            list_of_orders.append([email,items,price])
+            list_of_orders.append([id,email,items,price])
         return render_template('viewOrders.html',list_of_orders = list_of_orders)
     else:
         return 'Entry Restricted! Only Employees Allowed'
@@ -437,6 +447,18 @@ def pendingOrders():
         return render_template('pendingOrders.html',list_of_orders = list_of_orders)
     else:
         return 'Only for Customers'
+
+
+@app.route('/deleteOrder/<id>')
+@login_required
+def deleteOrder(id):
+    if current_user.is_authenticated and current_user.role == 'employee':
+        delete_order = orders.query.get(id)
+        db.session.delete(delete_order)
+        db.session.commit()
+        return redirect(url_for('viewOrders'))
+    else:
+        return 'Entry Restricted! Only Employees Allowed'
 
 
 if __name__=='__main__':
