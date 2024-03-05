@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for order in list_of_orders %}
+
+    <br>
+    
+    <p>Email : {{ order[0] }}</p>
+
+    <br>
+
+    <table>
+        <tr>
+            <th>Item Name</th>
+            <th>Quantity</th>
+        </tr>
+
+        {% for item in order[1] %}
+
+        <tr>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <p>Total Price : {{ order[2] }}</p>
+
+    <br>
+
+    <hr>
+
+{% endfor %}
+
+
+{% endblock %}

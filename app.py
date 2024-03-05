@@ -12,6 +12,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin,LoginManager,login_user,current_user, logout_user, login_required
 import email_validator
+import json
 
 app = Flask(__name__)
 
@@ -79,15 +80,31 @@ class cart(db.Model):
     item_name = db.Column(db.Text)
     item_price = db.Column(db.Integer)
     quantity = db.Column(db.Integer,default=1)
+    total_price = db.Column(db.Integer)
     image =  db.Column(db.Text, default='default.png')
     customer = db.Column(db.Text)
     
-    def __init__(self,item_name,item_price,quantity,image,customer):
+    def __init__(self,item_name,item_price,quantity,total_price,image,customer):
         self.item_name = item_name
         self.item_price = item_price
         self.quantity = quantity
+        self.total_price = total_price
         self.image = image
         self.customer = customer
+
+
+class orders(db.Model):
+    
+    __tablename__ = "orders"
+    id = db.Column(db.Integer,primary_key = True)
+    email = db.Column(db.Text)
+    order = db.Column(db.Text)
+    total_price = db.Column(db.Integer)
+    
+    def __init__(self,email,order,total_price):
+        self.email = email
+        self.order = json.dumps(order)
+        self.total_price = total_price
 
 
 class MenuForm(FlaskForm):
@@ -320,9 +337,10 @@ def add_to_cart(id):
     item_name = item.name
     item_price = item.price
     quantity = 1
+    total_price = item_price*quantity
     image = item.image
     customer = current_user.email
-    add_cart = cart(item_name,item_price,quantity,image,customer)
+    add_cart = cart(item_name,item_price,quantity,total_price,image,customer)
     db.session.add(add_cart)
     db.session.commit()
     return redirect(url_for('Cart'))
@@ -350,6 +368,58 @@ def deleteCart(sno):
         return redirect(url_for('Cart'))
     else:
         return 'Only for Customers'
+    
+    
+@app.route('/bill')
+@login_required
+def bill():
+    if current_user.is_authenticated and current_user.role == 'customer':
+        email = current_user.email
+        items = cart.query.filter_by(customer=email)
+        final_price = 0
+        for item in items:
+            final_price += item.total_price
+        return render_template('bill.html',items = items,email=email,final_price=final_price)
+        
+    else:
+        return 'Only for Customers'
+
+
+@app.route('/placeOrder')
+@login_required
+def placeOrder():
+    if current_user.is_authenticated and current_user.role == 'customer':
+        email = current_user.email
+        items = cart.query.filter_by(customer=email)
+        final_price = 0
+        order=[]
+        for item in items:
+            final_price += item.total_price
+            order.append([item.item_name,item.quantity])
+        
+        new_order = orders(email,order,final_price)
+        db.session.add(new_order)
+        db.session.commit()
+        return redirect(url_for('customer'))
+        
+    else:
+        return 'Only for Customers'
+
+
+@app.route('/viewOrders')
+@login_required
+def viewOrders():
+    if current_user.is_authenticated and current_user.role == 'employee':
+        list_of_orders = []
+        all_orders = orders.query.all()
+        for order_ in all_orders:
+            email = order_.email
+            items = json.loads(order_.order)
+            price = order_.total_price
+            list_of_orders.append([email,items,price])
+        return render_template('viewOrders.html',list_of_orders = list_of_orders)
+    else:
+        return 'Entry Restricted! Only Employees Allowed'
 
 
 if __name__=='__main__':
