@@ -1,5 +1,5 @@
 import os
-from flask import Flask,render_template,redirect,url_for,current_app,request,session
+from flask import Flask,render_template,redirect,url_for,current_app,request,session,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf import FlaskForm
@@ -135,8 +135,9 @@ class SignupForm(FlaskForm):
     confirm_pass = PasswordField("Confirm Password", validators=[DataRequired()])
     submit = SubmitField("SignUp")
     
-    def check_email(self,field):
+    def validate_email(self,field):
         if signup.query.filter_by(email=field.data).first():
+            flash("This Email has already been registered")
             raise ValidationError("Email is already registered")
         
 class emp_LoginForm(FlaskForm):
@@ -152,7 +153,7 @@ class emp_SignupForm(FlaskForm):
     confirm_pass = PasswordField("Confirm Password", validators=[DataRequired()])
     submit = SubmitField("SignUp")
     
-    def check_email(self,field):
+    def validate_email(self,field):
         if signup.query.filter_by(email=field.data).first():
             raise ValidationError("Email is already registered")
         
@@ -211,6 +212,8 @@ def login():
                 if next==None or not next[0]=='/':
                     next = url_for('customer')
                 return redirect(next)
+            else:
+                flash("Password is incorrect")
     return render_template('login.html',form=form)
 
 @app.route('/emp_login',methods=['GET','POST'])
@@ -233,6 +236,16 @@ def logout():
     
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/deleteUser/<id>')
+def deleteUser(id):
+    
+    user = signup.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    
+    return redirect(url_for('login'))
 
 
 @app.route('/uploadMenu',methods=['GET','POST'])
