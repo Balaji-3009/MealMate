@@ -316,7 +316,7 @@ def final_updateTime():
             op=0
             
             return redirect(url_for('viewMenu'))
-        return render_template('viewMenu.html',form = form,op=op,compMenu = compMenu,id=id)
+        return render_template('viewMenu.html', form = form,op=op,compMenu = compMenu,id=id)
     else:
         return 'Entry Restricted! Only Employees Allowed'
 
