@@ -1,5 +1,5 @@
 import os
-from flask import Flask,render_template,redirect,url_for,current_app,request
+from flask import Flask,render_template,redirect,url_for,current_app,request,session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf import FlaskForm
@@ -288,7 +288,14 @@ def deleteMenu(id):
 @app.route('/updateTime/<id>',methods=['GET','POST'])
 @login_required
 def updateTime(id):
+    session['update_id'] = id
+    return redirect(url_for('final_updateTime'))
+    
+@app.route('/final_updateTime',methods=['GET','POST'])
+@login_required
+def final_updateTime():
     if current_user.is_authenticated and current_user.role == 'employee':
+        id = session.get('update_id')
         form = UpdateTimeForm()
         if form.validate_on_submit():
             updtTime = menu.query.get(id)
