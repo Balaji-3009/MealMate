@@ -1,16 +1,37 @@
 {% extends 'base.html' %} {% block header1 %}
 <script src="static\scriptViewMenu.js"></script>
-{% endblock %} {% block content %} {% for food in compMenu %}
-<br />
-<p>{{food.name}}</p>
-<p>Rs.{{food.price}}</p>
-<img src="static/food_pics/{{food.image}}" width="400" height="250" />
-<p>Availability</p>
-<p>From {{food.from_time}} to {{food.to_time}}</p>
-<br />
-<a href="/deleteMenu/{{food.id}}">Delete</a>
-<a href="/updateTime/{{food.id}}">Update Time</a>
-<br /><br />
+{% endblock %} 
+{% block content %} 
 
-<hr />
-{% endfor %} {% endblock %}
+{% for food in compMenu %}
+
+    <br />
+    <p>{{food.name}}</p>
+    <p>Rs.{{food.price}}</p>
+    <img src="static/food_pics/{{food.image}}" width="400" height="250" />
+    <p>Availability</p>
+    <p>From {{food.from_time}} to {{food.to_time}}</p>
+    <br />
+    <a href="/deleteMenu/{{food.id}}">Delete</a>
+    <a href="/updateTime/{{food.id}}">Update Time</a>
+    {% if op %}
+        {% if id|string == food.id|string %}
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <br>
+                {{ form.from_time.label }}
+                {{ form.from_time }}
+                {{ form.to_time.label }}
+                {{ form.to_time }}
+                <br><br>
+                {{ form.submit() }}
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <br /><br />
+
+    <hr />
+
+{% endfor %} 
+{% endblock %}

@@ -295,7 +295,9 @@ def updateTime(id):
 @login_required
 def final_updateTime():
     if current_user.is_authenticated and current_user.role == 'employee':
+        op=1
         id = session.get('update_id')
+        compMenu = menu.query.all()
         form = UpdateTimeForm()
         if form.validate_on_submit():
             updtTime = menu.query.get(id)
@@ -311,9 +313,10 @@ def final_updateTime():
             updtTime.to_time = Converted_to_time
             db.session.add(updtTime)
             db.session.commit()
+            op=0
             
             return redirect(url_for('viewMenu'))
-        return render_template('updateTime.html',form = form)
+        return render_template('viewMenu.html',form = form,op=op,compMenu = compMenu,id=id)
     else:
         return 'Entry Restricted! Only Employees Allowed'
 
@@ -322,7 +325,8 @@ def final_updateTime():
 def viewMenu():
     if current_user.is_authenticated and current_user.role == 'employee':
         compMenu = menu.query.all()
-        return render_template('viewMenu.html', compMenu=compMenu)
+        op=0
+        return render_template('viewMenu.html', compMenu=compMenu,op=op)
     else:
         return 'Entry Restricted! Only Employees Allowed'
 
