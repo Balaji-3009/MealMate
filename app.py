@@ -155,6 +155,12 @@ class emp_SignupForm(FlaskForm):
     def check_email(self,field):
         if signup.query.filter_by(email=field.data).first():
             raise ValidationError("Email is already registered")
+        
+class UpdateQuantity(FlaskForm):
+    
+    quantity = IntegerField("Quantity")
+    submit = SubmitField("Update Quantity")
+
 
 @app.route('/')
 def index():
@@ -364,15 +370,46 @@ def Cart():
         email = current_user.email
         items = cart.query.filter_by(customer=email)
         count = 0
+        opp = 0
         for i in items:
             count+=1
         if count>0:
-            return render_template('cart.html',items=items)
+            return render_template('cart.html',items=items,opp=opp)
         else:
             return "Cart Empty"
     else:
         return 'Only for Customers'
     
+    
+@app.route('/updateQuantity/<sno>',methods=['GET','POST'])
+@login_required
+def updateQuantity(sno):
+    session['update_sno'] = sno
+    return redirect(url_for('final_updateQuantity'))
+
+
+@app.route('/final_updateQuantity',methods=['GET','POST'])
+@login_required
+def final_updateQuantity():
+    if current_user.is_authenticated and current_user.role == 'customer':
+        opp=1
+        sno = session.get('update_sno')
+        email = current_user.email
+        items = cart.query.filter_by(customer = email)
+        form = UpdateQuantity()
+        if form.validate_on_submit():
+            item = cart.query.get(sno)
+            item.quantity = form.quantity.data
+            item.total_price = form.quantity.data * item.item_price
+            db.session.add(item)
+            db.session.commit()
+            op=0
+            
+            return redirect(url_for('Cart'))
+        return render_template('cart.html', form = form,opp=opp,items = items,sno=sno)
+    else:
+        return 'Only for Customers'
+
 
 @app.route('/deleteCart/<sno>')
 @login_required
