@@ -1,55 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
+  </head>
+  <body>
     {% for item in items %}
-        <div id={{item.sno}}>
-            <br />
-            <img src="static/food_pics/{{item.image}}" width="400" height="250" />
-            <p>{{item.item_name}}</p>
-            <p>Rs.{{item.item_price}}</p>
-            <p>Quantity : {{item.quantity}}</p>
-            <a href="/updateQuantity/{{item.sno}}">Update Quantity</a><br><br>
-            
-            
+    <div id="{{item.sno}}">
+      <br />
+      <img src="static/food_pics/{{item.image}}" width="400" height="250" />
+      <p>{{item.item_name}}</p>
+      <p>Rs.{{item.item_price}}</p>
+      <p>Quantity : {{item.quantity}}</p>
+      <a href="/updateQuantity/{{item.sno}}">Update Quantity</a><br /><br />
 
-            {% if opp %}
-                {% if sno|string == item.sno|string %}
-                    <form method="POST">
+      {% if opp %} {% if sno|string == item.sno|string %}
+      <form method="POST">
+        {{form.hidden_tag()}} {{form.quantity.label()}} {{form.quantity()}}
+        {{form.submit()}}
+        <br /><br />
+      </form>
+      {% endif %} {% endif %}
 
-                        {{form.hidden_tag()}}
-                        {{form.quantity.label()}}
-                        {{form.quantity()}}
-                        {{form.submit()}}
-                        <br><br>
+      <a href="/deleteCart/{{item.sno}}">Remove item</a><br /><br />
 
-                    </form>
-                {% endif %}
-            {% endif %}
-
-            <a href="/deleteCart/{{item.sno}}">Remove item</a><br><br>
-            <a href="/bill">Proceed to Payment</a>
-
-            <br><br>
-            <hr />
-        </div>
+      <br /><br />
+      <hr />
+    </div>
     {% endfor %}
-
-    
+    <a href="/bill">Proceed to Payment</a>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var element = document.getElementById("{{ sno }}");
-            if (element) {
-                element.scrollIntoView({ behavior:"instant" });
-            }
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        var element = document.getElementById("{{ sno }}");
+        if (element) {
+          element.scrollIntoView({ behavior: "instant" });
+        }
+      });
     </script>
-
-</body>
+  </body>
 </html>

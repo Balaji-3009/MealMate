@@ -1,45 +1,39 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block header1 %}
+<script src="static/scriptViewOrders.js"></script>
+{% endblock %} {% block content %} {% for order in list_of_orders %}
 
-{% block content %}
+<br />
 
-{% for order in list_of_orders %}
+<p>Email : {{ order[1] }}</p>
 
-    <br>
-    
-    <p>Email : {{ order[1] }}</p>
+<br />
 
-    <br>
+<table>
+  <tr>
+    <th>Item Name</th>
+    <th>Quantity</th>
+  </tr>
 
-    <table>
-        <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-        </tr>
+  {% for item in order[2] %}
 
-        {% for item in order[2] %}
+  <tr>
+    <td>{{ item[0] }}</td>
+    <td>{{ item[1] }}</td>
+  </tr>
 
-        <tr>
-            <td>{{ item[0] }}</td>
-            <td>{{ item[1] }}</td>
-        </tr>
-        
-        {% endfor %}
+  {% endfor %}
+</table>
 
-    </table>
+<br />
 
-    <br>
+<p>Total Price : {{ order[3] }}</p>
 
-    <p>Total Price : {{ order[3] }}</p>
+<br />
 
-    <br>
+<a href="/deleteOrder/{{order[0]}}">Order Served</a>
 
-    <a href="/deleteOrder/{{order[0]}}">Order Served</a>
+<br />
 
-    <br>
+<hr />
 
-    <hr>
-
-{% endfor %}
-
-
-{% endblock %}
+{% endfor %} {% endblock %}

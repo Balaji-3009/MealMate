@@ -20,18 +20,31 @@
       <ul class="nav">
         <li class="menu_icon">
           <a href="" onclick="showSideBar(event)" class="show_button"
-            ><img src="static/menu_icon.svg" alt="" class="show_button"
+            ><img src="static\menu_icon.png" alt="" class="show_button"
           /></a>
         </li>
+        <!-- <div class="nav-sections"> -->
+        <!-- <li>
+          <a href="/employee" class="nav-li">Home</a>
+        </li>
+        <li><a href="/uploadMenu" class="nav-li">Menu Upload</a></li>
+        <li><a href="/viewMenu" class="nav-li">View Menu</a></li>
+        <li><a href="viewOrders" class="nav-li">View Orders</a></li> -->
+        <!-- </div> -->
         <li class="nav_img">
           <img src="static/logo.png" alt="" />
           <p>Meal Mate</p>
         </li>
+
         <li class="logOut">
-          <button>
-            <a href="/logout"><img src="static/logout.png" width="100" /></a>
+
+            <a href="/logout">
+              <!-- <img src="static\logout_icon.png" width="100" /> -->
+              <p>Logout</p></a
+            >
+
             <!-- <p href="">LogOut</p> -->
-          </button>
+
         </li>
       </ul>
     </nav>
@@ -49,5 +62,6 @@
     {% block content %} {% endblock %}
     <!-- <div class="light"></div> -->
     {% block header1 %} {% endblock %}
+    <script src="static/scriptBase.js"></script>
   </body>
 </html>
