@@ -167,7 +167,7 @@ transition: 0.2s;
 
 /* Side BAr */
 .sidebar {
-  background-color: rgba(194, 193, 231, 0.784);
+  background-color: rgb(194, 193, 231);
   margin-top: 100px;
   position: fixed;
   top: 0px;
@@ -424,4 +424,100 @@ transition: 0.2s;
   position: absolute;
   inset: 2px;
   background: #27282c;
+}
+/* View Orders Page */
+.viewOrdersBody {
+  /* background: linear-gradient(to right, #3494e6, #ec6ead); */
+}
+.viewOrders {
+  margin: 3% 20% 0% 10%;
+  width: 38%;
+  max-width: 600px;
+  padding: 3% 3%;
+  box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.19);
+  border-top: 3px solid rgb(252, 103, 49);
+  border-bottom: 3px solid rgb(252, 103, 49);
+  border-left: none;
+  border-right: none;
+  /* background: linear-gradient(to right top, #ff758c, #ff7eb3, #845ec2); */
+  color: black !important;
+}
+.title {
+  color: black;
+  font-weight: 600;
+  margin-bottom: 1%;
+  margin-right: 5%;
+  padding: 0 17%;
+  font-size: 20px;
+  display: block;
+  height: 20px;
+  float: right;
+}
+.table {
+  /* float: left; */
+  display: block;
+  margin-top: 10%;
+  margin-left: 1%;
+  width: 100%;
+  font-size: 20px;
+}
+.heading {
+  width: 100%;
+  height: 30px;
+}
+.heading .one {
+  width: 80%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.heading .two {
+  width: 80%;
+  padding-left: 5%;
+  padding-right: 3%;
+}
+.order {
+  width: 100%;
+  height: 30px;
+}
+.order .one {
+  width: 80%;
+  padding-left: 30%;
+  padding-right: 5%;
+}
+.order .two {
+  width: 80%;
+  padding-left: 13%;
+  padding-right: 5%;
+}
+.price {
+  font-size: 20px;
+  margin-left: 20%;
+}
+.price span {
+  /* margin-left: 60%; */
+  color: black;
+}
+.delete_order {
+  clear: both;
+  /* float: left; */
+  border: 1px solid aqua;
+  border-radius: 30px;
+  padding: 10px;
+  /* margin-top: 30px;
+  margin-bottom: 40px; */
+  padding-left: 30px;
+  padding-right: 30px;
+  /* background-color: rgb(0, 112, 149); */
+  border: 3px solid rgb(252, 103, 49);
+  color: black;
+  font-weight: 500;
+  margin-left: 200px;
+  /* margin-bottom: 2000px; */
+  font-size: 20px;
+  text-decoration: none;
+  transition: 5ms all ease-in-out;
+}
+.delete_order:hover {
+  background-color: rgb(252, 103, 49);
+  color: white;
 }
