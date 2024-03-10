@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="static\student.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- <script src="static/script.js"></script> -->
+
+    {% block head1 %} {% endblock %}
+  </head>
+  <body>
+    <nav class="navigation">
+      <ul class="nav">
+        <li class="menu_icon">
+          <a href="" onclick="showSideBar(event)" class="show_button"
+            ><img src="static\menu_icon.png" alt="" class="show_button"
+          /></a>
+        </li>
+        <!-- <div class="nav-sections"> -->
+        <!-- <li>
+          <a href="/employee" class="nav-li">Home</a>
+        </li>
+        <li><a href="/uploadMenu" class="nav-li">Menu Upload</a></li>
+        <li><a href="/viewMenu" class="nav-li">View Menu</a></li>
+        <li><a href="viewOrders" class="nav-li">View Orders</a></li> -->
+        <!-- </div> -->
+        <li class="nav_img">
+          <img src="static/logo.png" alt="" />
+          <p>Meal Mate</p>
+        </li>
+
+        <li class="logOut">
+          <a href="/logout">
+            <!-- <img src="static\logout_icon.png" width="100" /> -->
+            <p>Logout</p></a
+          >
+
+          <!-- <p href="">LogOut</p> -->
+        </li>
+      </ul>
+    </nav>
+    <ul class="sidebar">
+      <a href="" onclick="hideSideBar(event)"
+        ><img src="static/X_icon.svg" alt="" 
+      /></a>
+      <li style="border-top: 0.1px solid rgba(4, 9, 98, 0.5)">
+        <a href="/employee">Home</a>
+      </li>
+      <li><a href="/customer_menu">Menu</a></li>
+      <li><a href="/add_to_cart">Cart</a></li>
+      <li><a href="pendingOrders">Pending orders</a></li>
+    </ul>
+    {% block contentStudent %} {% endblock %}
+    <!-- <div class="light"></div> -->
+    {% block head2 %} {% endblock %}
+    <script src="static/scriptBase.js"></script>
+  </body>
+</html>
