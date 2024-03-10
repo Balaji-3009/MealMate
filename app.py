@@ -349,9 +349,19 @@ def viewMenu():
     else:
         return 'Entry Restricted! Only Employees Allowed'
 
+
 @app.route('/customer')
 @login_required
 def customer():
+    if current_user.is_authenticated and current_user.role == 'customer':
+        return render_template('customer_main.html')
+    else:
+        return 'Only for Customers'
+
+
+@app.route('/customer_menu')
+@login_required
+def customer_menu():
     if current_user.is_authenticated and current_user.role == 'customer':
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
