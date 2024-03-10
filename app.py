@@ -100,11 +100,23 @@ class orders(db.Model):
     email = db.Column(db.Text)
     order = db.Column(db.Text)
     total_price = db.Column(db.Integer)
+    time = db.Column(db.Text)
     
-    def __init__(self,email,order,total_price):
+    def __init__(self,id,email,order,total_price,time):
+        self.id = id
         self.email = email
         self.order = json.dumps(order)
         self.total_price = total_price
+        self.time = time 
+        
+
+class orderId(db.Model):
+    __tablename__ = "orderId"
+    sno = db.Column(db.Integer,primary_key = True)
+    id = db.Column(db.Integer)
+    
+    def __init__(self,id):
+        self.id = id
 
 
 class MenuForm(FlaskForm):
@@ -474,12 +486,23 @@ def placeOrder():
             final_price += item.total_price
             order.append([item.item_name,item.quantity])
         
-        new_order = orders(email,order,final_price)
+        ordId = orderId.query.get(1)
+        id = ordId.id + 1
+        
+        now = datetime.now()
+        current_time = now.strftime("%I:%M %p")
+        
+        new_order = orders(id,email,order,final_price,current_time)
         db.session.add(new_order)
         db.session.commit()
         for item in items:
             db.session.delete(item)
             db.session.commit()
+            
+        ordId.id = id
+        db.session.add(ordId)
+        db.session.commit()
+        
         return redirect(url_for('customer'))
         
     else:
@@ -497,7 +520,8 @@ def viewOrders():
             email = order_.email
             items = json.loads(order_.order)
             price = order_.total_price
-            list_of_orders.append([id,email,items,price])
+            time = order_.time
+            list_of_orders.append([id,email,items,price,time])
         return render_template('viewOrders.html',list_of_orders = list_of_orders)
     else:
         return 'Entry Restricted! Only Employees Allowed'
@@ -514,7 +538,9 @@ def pendingOrders():
             email = order_.email
             items = json.loads(order_.order)
             price = order_.total_price
-            list_of_orders.append([email,items,price])
+            id = order_.id
+            time = order_.time
+            list_of_orders.append([email,items,price,id,time])
         return render_template('pendingOrders.html',list_of_orders = list_of_orders)
     else:
         return 'Only for Customers'
@@ -531,6 +557,14 @@ def deleteOrder(id):
     else:
         return 'Entry Restricted! Only Employees Allowed'
 
+
+@app.route('/initOrderId')
+def initOrderId():
+    id = 1
+    ordId = orderId(id)
+    db.session.add(ordId)
+    db.session.commit()
+    return "order id initialized"
 
 if __name__=='__main__':
     app.run(debug=True)

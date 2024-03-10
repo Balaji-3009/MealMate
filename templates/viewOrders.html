@@ -3,6 +3,8 @@
 {% endblock %} {% block content %} {% for order in list_of_orders %}
 <body class="viewOrdersBody">
     <div class="viewOrders">
+      <p>{{ order[4] }}</p>
+      <p>Order Id : {{ order[0] }}</p>
       <p class="title">Email : {{ order[1] }}</p>
 
       <!-- <br /><br /><br /><br /><br /> -->
