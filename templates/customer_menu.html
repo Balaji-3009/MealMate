@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="static/main.css">
 </head>
-<body>
+<body class="view_menu">
     {% for food in compMenu %}
+    <div class="view_list">
     <br />
     <p>{{food.name}}</p>
     <p>Rs.{{food.price}}</p>
     <img src="static/food_pics/{{food.image}}" width="400" height="250" />
     <p>Availability</p>
-    <p>From {{food.from_time}} to {{food.to_time}}</p>
+    <p>From {{food.from_time}} to {{food.to_time}}</p> <br>
     <a href="/add_to_cart/{{food.id}}">Add to Cart</a>
     <br><br>
-    <hr />
+    </div>
     {% endfor %}
 </body>
 </html>

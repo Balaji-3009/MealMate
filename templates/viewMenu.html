@@ -1,47 +1,49 @@
-{% extends 'base.html' %} {% block header1 %}
+{% extends 'base.html' %} 
+{% block header1 %}
 <script src="static\scriptViewMenu.js"></script>
-{% endblock %} 
-{% block content %} 
+{% endblock %}
 
-{% for food in compMenu %}
-    <div id="{{ food.id }}">
-        <br />
-        <p>{{food.name}}</p>
-        <p>Rs.{{food.price}}</p>
-        <img src="static/food_pics/{{food.image}}" width="400" height="250" />
-        <p>Availability</p>
-        <p>From {{food.from_time}} to {{food.to_time}}</p>
-        <br />
-        <a href="/deleteMenu/{{food.id}}">Delete</a>
-        <a href="/updateTime/{{food.id}}">Update Time</a>
-        {% if op %}
+{% block content %}
+<body class="view_menu">
+    {% for food in compMenu %}
+    <div class="food_item">
+        <div id="{{ food.id }}" class="view_list">
+            <br />
+            <p>{{food.name}} : Rs.{{food.price}}</p> <br>
+            <img src="static/food_pics/{{food.image}}" width="400" height="250"/>
+            <br><br>
+            <p>Availability: {{food.from_time}} - {{food.to_time}}</p>
+            <br />
+            <a href="/deleteMenu/{{food.id}}">Delete</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/updateTime/{{food.id}}">Update Time</a>
+            {% if op %}
             {% if id|string == food.id|string %}
-                <form method="POST">
-                    {{ form.hidden_tag() }}
-                    <br>
-                    {{ form.from_time.label }}
-                    {{ form.from_time }}
-                    {{ form.to_time.label }}
-                    {{ form.to_time }}
-                    <br><br>
-                    {{ form.submit() }}
-                </form>
+            {% block form %}
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <br>
+                {{ form.from_time.label }}
+                {{ form.from_time }}
+                {{ form.to_time.label }}
+                {{ form.to_time }}
+                <br><br>
+                {{ form.submit() }}
+            </form>
+            {% endblock %}
             {% endif %}
-        {% endif %}
-
-        <br /><br />
-
-        <hr />
-
-{% endfor %} 
+            {% endif %}
+        </div>
+    </div>
+    <br /><br />
+    {% endfor %}
+</body>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var element = document.getElementById("{{ id }}");
         if (element) {
-            element.scrollIntoView({ behavior:"instant" });
+            element.scrollIntoView({ behavior: "instant" });
         }
     });
 </script>
-
 {% endblock %}

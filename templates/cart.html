@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="static/main.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="food_item">
     {% for item in items %}
-    <div id="{{item.sno}}">
+    <div id="{{item.sno}}" class="view_list">
       <br />
       <img src="static/food_pics/{{item.image}}" width="400" height="250" />
-      <p>{{item.item_name}}</p>
+      <p>{{item.item_name}}</p> <br>
       <p>Rs.{{item.item_price}}</p>
-      <p>Quantity : {{item.quantity}}</p>
-      <a href="/updateQuantity/{{item.sno}}">Update Quantity</a><br /><br />
+      <p>Quantity : {{item.quantity}}</p><br>
+      <a href="/updateQuantity/{{item.sno}}">Update Quantity</a>
 
       {% if opp %} {% if sno|string == item.sno|string %}
       <form method="POST">
@@ -26,18 +30,20 @@
       <a href="/deleteCart/{{item.sno}}">Remove item</a><br /><br />
 
       <br /><br />
-      <hr />
     </div>
-    {% endfor %}
-    <a href="/bill">Proceed to Payment</a>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var element = document.getElementById("{{ sno }}");
-        if (element) {
-          element.scrollIntoView({ behavior: "instant" });
-        }
-      });
-    </script>
-  </body>
+  </div>
+  {% endfor %}
+  <center><a class="btn" href="/bill">Proceed to Payment</a></center>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var element = document.getElementById("{{ sno }}");
+      if (element) {
+        element.scrollIntoView({ behavior: "instant" });
+      }
+    });
+  </script>
+</body>
+
 </html>
