@@ -405,9 +405,6 @@ transition: 0.2s;
   justify-content:space-around;
 }
 
-.view_menu:first-letter{
-  text-transform: uppercase;
-}
 
 .food_item {
   display: flex;
@@ -535,12 +532,18 @@ transition: 0.2s;
    color: black;
 }
 
-/*Cart*/
-
 .studentCart {
+  background-image: url(vignette.jpg);
 background-position: center;
 background-repeat:no-repeat;
 background-size: cover;
+
+}
+
+.cont{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-around;
 }
 
 .update-quantity-form input[type="number"] {

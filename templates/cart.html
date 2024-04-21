@@ -1,34 +1,39 @@
-{% extends 'studentBase.html' %}{% block head2 %}
+{% extends 'studentBase.html' %}
+
+{% block head2 %}
 <script src="static\customerCart.js"></script>
 <link rel="stylesheet" href="../static/student.css">
-{% endblock %}{% block contentStudent %}
+{% endblock %}
+
+{% block contentStudent %}
 <body class="studentCart">
-  <div class="food_item">
-    {% for item in items %}
-    <div id="{{item.sno}}" class="view_list">
-      <img src="static/food_pics/{{item.image}}" width="400" height="250" />
-      <p>{{item.item_name}}</p>
-      <br />
-      <p>Rs.{{item.item_price}}</p>
-      <p>Quantity : {{item.quantity}}</p>
-      <br />
-      <a href="/updateQuantity/{{item.sno}}">Update Quantity</a>
+  <div class="cont">
+  {% for item in items %}
+    <div class="food_item">
+      <div id="{{item.sno}}" class="view_list">
+        <img src="static/food_pics/{{item.image}}" width="400" height="250" />
+        <p>{{item.item_name}}</p>
+        <br />
+        <p>Rs.{{item.item_price}}</p>
+        <p>Quantity : {{item.quantity}}</p>
+        <br />
+        <a href="/updateQuantity/{{item.sno}}">Update Quantity</a>
 
-      {% if opp %} {% if sno|string == item.sno|string %}
-      <form class="update-quantity-form" method="POST">
-        <br>
-        {{form.hidden_tag()}} {{form.quantity.label()}} {{form.quantity()}}
-        {{form.submit()}}
-        <br /><br />
-      </form>
-      {% endif %} {% endif %}
-
-      <a href="/deleteCart/{{item.sno}}">Remove item</a><br /><br />
-
-      <br />
+        {% if opp %} {% if sno|string == item.sno|string %}
+        <form class="update-quantity-form" method="POST">
+          <br>
+          {{form.hidden_tag()}} {{form.quantity.label()}} {{form.quantity()}}
+          {{form.submit()}}
+          <br /><br />
+        </form>
+        {% endif %} {% endif %}
+        <a href="/deleteCart/{{item.sno}}">Remove item</a><br /><br />
+        <br />
+      </div>
     </div>
-  </div>
+
   {% endfor %}
+</div> <br><br>
   <center><a class="btn" href="/bill">Proceed to Payment</a></center><br>
 
   <script>
