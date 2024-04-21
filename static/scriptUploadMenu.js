@@ -1,6 +1,5 @@
 document.querySelector(".upload_menu").addEventListener("click", (event) => {
   const sidebar = document.querySelector(".sidebar");
-  const mainContent = document.querySelector(".upload_form");
   const isButton = event.target.classList.contains("show_button");
   // Check if the clicked element is not within the sidebar
   if (!sidebar.contains(event.target) && !isButton) {
@@ -9,49 +8,33 @@ document.querySelector(".upload_menu").addEventListener("click", (event) => {
     setTimeout(() => {
       sidebar.style.display = "none";
     }, 500);
-    setTimeout(() => {
-      mainContent.style.marginLeft = "400px";
-    }, 20);
+    // setTimeout(() => {
+    //   mainContent.style.marginLeft = "400px";
+    // }, 20);
   }
   // No need for event.preventDefault() if you want normal click behavior
 });
 function showSideBar(event) {
-  const mainContent = document.querySelector(".upload_form");
   const sidebar = document.querySelector(".sidebar");
+  const body = document.querySelector("body");
   if (sidebar.style.display === "flex") {
     hideSideBar(event);
   } else {
     sidebar.style.display = "flex";
-    setTimeout(() => {
-      sidebar.style.left = "0px";
-    }, 0.1);
-    mainContent.style.marginLeft = "500px";
+    sidebar.style.position = "fixed";
+    sidebar.style.left = "0px";
+    body.style.overflowY = "hidden"; // Disable vertical scrolling of the body
   }
   event.preventDefault();
 }
+
 function hideSideBar(event) {
-  const mainContent = document.querySelector(".upload_form");
   const sidebar = document.querySelector(".sidebar");
+  const body = document.querySelector("body");
   sidebar.style.left = "-400px";
-  // console.log("Function called");
   setTimeout(() => {
     sidebar.style.display = "none";
+    body.style.overflowY = "auto"; // Enable vertical scrolling of the body
   }, 500);
-  setTimeout(() => {
-    mainContent.style.marginLeft = "400px";
-  }, 20);
   event.preventDefault();
 }
-
-// to hide nav-bar
-const navigationBar = document.querySelector(".navigation");
-
-navigationBar.addEventListener("mouseover", (event) => {
-  navigationBar.classList.remove("hidden");
-  event.preventDefault();
-});
-
-navigationBar.addEventListener("mouseout", (event) => {
-  navigationBar.classList.add("hidden");
-  event.preventDefault();
-});

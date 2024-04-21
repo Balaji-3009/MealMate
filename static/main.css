@@ -176,7 +176,7 @@ transition: 0.2s;
 /* Side BAr */
 .sidebar {
   background-color: rgb(194, 193, 231);
-  margin-top: 100px;
+  margin-top: 75px;
   position: fixed;
   top: 0px;
   left: -4000px;
@@ -385,6 +385,9 @@ transition: 0.2s;
 } */
 
 /* Upload Menu CSS */
+/* input:focus {
+  outline: none;
+} */
 .upload_menu {
   background-image: url("upload_menu-background.jpg");
   background-position: center;
@@ -434,10 +437,11 @@ transition: 0.2s;
   font-size: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-.price {
+.price-input .price {
   height: 25px;
   width: 75%;
   margin-bottom: 10px;
+  margin-right: 50px;
 }
 .img-input {
   float: left;
@@ -492,6 +496,90 @@ transition: 0.2s;
   position: absolute;
   inset: 2px;
   background: #27282c;
+}
+/* Media Queries for max-width: 600px */
+@media only screen and (max-width: 600px) {
+  /* Adjustments for .upload_form */
+  .upload_form {
+    align-items: center;
+    margin-left: 0;
+    width: 90%;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 50px;
+  }
+
+  /* Adjustments for .name-input and .price-input */
+  .name-input, .price-input {
+    width: 100%;
+    float: none;
+    margin-bottom: 20px;
+  }
+
+  /* Adjustments for .img-input and .time-input */
+  .img-input, .time-input {
+    width: 100%;
+    float: none;
+    margin-bottom: 20px;
+  }
+
+  /* Adjustments for .from_time-input */
+  .from_time-input {
+    margin-bottom: 10px;
+  }
+
+  /* Adjustments for .to_time-input */
+  .to_time-input {
+    margin-left: 0;
+  }
+
+  /* Adjustments for .sumbit-btn */
+  .sumbit-btn {
+    margin-left: 0;
+  }
+
+  /* Adjustments for .food_item a + a */
+  .food_item a + a {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  /* Adjustments for .view_list */
+  .view_list {
+    width: 90%;
+    margin: 10px auto;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 15px;
+  }
+
+  /* Adjustments for .view_list label */
+  .view_list label {
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  /* Adjustments for .view_list input[type="time"] */
+  .view_list input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  /* Adjustments for .view_list input[type="submit"] */
+  .view_list input[type="submit"] {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  /* Adjustments for .view_list a */
+  .view_list a {
+    margin-right: 5px;
+    padding: 8px;
+    font-size: 16px;
+  }
 }
 
 /*View Menu Page*/
@@ -698,8 +786,8 @@ transition: 0.2s;
   }
 
   .viewOrders {
-    min-width: 100%; /* Adjust width to fit smaller screens */
-    max-width: none; /* Remove max-width to allow flexibility */
+    min-width: 90%; /* Adjust width to fit smaller screens */
+    max-width: 90%; /* Remove max-width to allow flexibility */
     margin: 0 auto 3%; /* Center horizontally and add bottom margin */
     padding: 3%;
     background-color: white;
