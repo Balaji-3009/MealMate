@@ -395,32 +395,44 @@ transition: 0.2s;
 
 /*View Menu Page*/
 .view_menu {
+  
   background-image: url("viewmenu_bg.jpg");
   background-position: center;
-  background-repeat: initial;
+  background-repeat: none;
   background-size: cover;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content:space-around;
+}
+
+.view_menu:first-letter{
+  text-transform: uppercase;
 }
 
 .food_item {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 .view_list {
-  width: 440px;
+  width: 420px;
   margin: 10px;
-  padding: 20px;
+  padding: 10px;
+  padding-bottom: 20px;
   border: 1px solid #ccc;
   box-sizing: border-box;
   backdrop-filter: blur(10px);
   text-align: center;
   font-size: 20px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 20px;
+}
+
+.view_list:hover{
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .view_list p {
@@ -438,7 +450,7 @@ transition: 0.2s;
 .view_list img {
   display: block;
   margin-bottom: 5px;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 .view_list label {
@@ -457,29 +469,44 @@ transition: 0.2s;
   box-sizing: border-box;
 }
 
-.view_list input[type="submit"] {
-  background-color: #27a12b;
+.view_list input[type="submit"] { 
+  clear: both;
+  font-family:sans-serif;
+  
+  border: 1px solid aqua;
+  border-radius: 30px;
+  padding: 10px;
+  border: 3px solid rgb(252, 103, 49);
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  background-color: rgb(252, 103, 49);
+  font-weight: 500;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 5ms all ease-in-out;
 }
 
-.view_list input[type="submit"]:hover {
-  background-color: #116515;
+.view_list input[type="submit"]:hover { 
+  background: transparent;
+  color: black;
 }
 
 .view_list a {
-  text-decoration: none;
-  color: #ffffff;
-  margin-right: 10px;
-  background-color: #004d9f;
+  clear: both;
+  border: 1px solid aqua;
+  border-radius: 30px;
   padding: 10px;
-  border-radius: 5px;
+  border: 3px solid rgb(252, 103, 49);
+  color: white;
+  background-color: rgb(252, 103, 49);
+  font-weight: 500;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 5ms all ease-in-out;
 }
 .view_list a:hover {
-  background-color: #002853;
+   /* background-color: rgb(252, 103, 49); */
+   background: transparent;
+   color: black;
 }
 
 .food_item a + a {
@@ -489,17 +516,68 @@ transition: 0.2s;
 /*Student Cart*/
 
 .btn {
-  margin-top: 10px;
-  width: fit-content;
-  height: fit-content;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #004d9f;
+  clear: both;
+  border: 1px solid aqua;
+  border-radius: 30px;
   padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  border: 3px solid rgb(252, 103, 49);
+  color: white;
+  background-color: #fc6731;
+  font-weight: 500;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 5ms all ease-in-out;
 }
 
 .btn:hover {
-  background-color: #002853;
+
+   background: transparent;
+   color: black;
+}
+
+/*Cart*/
+
+.studentCart {
+background-position: center;
+background-repeat:no-repeat;
+background-size: cover;
+}
+
+.update-quantity-form input[type="number"] {
+  height: 30px;
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/*Bill*/
+.bill{
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center;
+}
+
+.bill table {
+  border-collapse: collapse;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+}
+
+.bill th, .bill td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid rgb(120, 120, 120);
+}
+
+.bill th{
+  background-color: #999999;
+}
+
+.bill .sidebar{
+  text-align: left;
 }

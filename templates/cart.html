@@ -1,11 +1,11 @@
 {% extends 'studentBase.html' %}{% block head2 %}
 <script src="static\customerCart.js"></script>
+<link rel="stylesheet" href="../static/student.css">
 {% endblock %}{% block contentStudent %}
 <body class="studentCart">
   <div class="food_item">
     {% for item in items %}
     <div id="{{item.sno}}" class="view_list">
-      <br />
       <img src="static/food_pics/{{item.image}}" width="400" height="250" />
       <p>{{item.item_name}}</p>
       <br />
@@ -15,7 +15,8 @@
       <a href="/updateQuantity/{{item.sno}}">Update Quantity</a>
 
       {% if opp %} {% if sno|string == item.sno|string %}
-      <form method="POST">
+      <form class="update-quantity-form" method="POST">
+        <br>
         {{form.hidden_tag()}} {{form.quantity.label()}} {{form.quantity()}}
         {{form.submit()}}
         <br /><br />
@@ -24,11 +25,11 @@
 
       <a href="/deleteCart/{{item.sno}}">Remove item</a><br /><br />
 
-      <br /><br />
+      <br />
     </div>
   </div>
   {% endfor %}
-  <center><a class="btn" href="/bill">Proceed to Payment</a></center>
+  <center><a class="btn" href="/bill">Proceed to Payment</a></center><br>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {

@@ -1,6 +1,7 @@
 {% extends 'base.html' %} 
 {% block header1 %}
 <script src="static\scriptViewMenu.js"></script>
+<link rel="stylesheet" href="../static/student.css">
 {% endblock %}
 
 {% block content %}
@@ -8,10 +9,9 @@
     {% for food in compMenu %}
     <div class="food_item">
         <div id="{{ food.id }}" class="view_list">
-            <br />
-            <p>{{food.name}} : Rs.{{food.price}}</p> <br>
             <img src="static/food_pics/{{food.image}}" width="400" height="250"/>
-            <br><br>
+            <br>
+            <p>{{food.name}} : Rs.{{food.price}}</p> <br>
             <p>Availability: {{food.from_time}} - {{food.to_time}}</p>
             <br />
             <a href="/deleteMenu/{{food.id}}">Delete</a> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -20,6 +20,7 @@
             {% if id|string == food.id|string %}
             {% block form %}
             <form method="POST">
+                <br>
                 {{ form.hidden_tag() }}
                 <br>
                 {{ form.from_time.label }}
