@@ -1,7 +1,7 @@
 {% extends 'studentBase.html' %}{% block head2 %}
 <script src="static\customerCart.js"></script>
 {% endblock %}{% block contentStudent %}
-<body>
+<body class="studentCart">
   <div class="food_item">
     {% for item in items %}
     <div id="{{item.sno}}" class="view_list">

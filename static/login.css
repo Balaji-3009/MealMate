@@ -219,3 +219,40 @@ body {
   text-decoration: none;
   color: rgb(233, 36, 36);
 }
+/* Styles for screens smaller than or equal to 600px */
+@media only screen and (max-width: 600px) {
+  .stu-div {
+    width: 90%;
+    margin: 50px auto;
+    padding: 20px;
+    height: 100vh;
+  }
+  .stu-div img {
+    width: 50%;
+  }
+  .stu-div h2 {
+    font-size: 1.5rem;
+  }
+  .btnDiv {
+    margin-top: 20px;
+  }
+  .stu-login-link {
+    width: 50%;
+    float: none;
+    margin-bottom: 10px;
+  }
+  .emp-login-link {
+  }
+  .stuBtn,
+  .empBtn {
+    width: 100%; /* Make both buttons full width */
+    margin-left: 0; /* Remove left margin */
+  }
+  .loginBtn {
+    width: 100%;
+    margin-left: 0;
+  }
+  .sign_up {
+    font-size: 16px;
+  }
+}
