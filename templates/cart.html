@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="static/main.css">
-  <title>Document</title>
-</head>
-
+{% extends 'studentBase.html' %}{% block head2 %}
+<script src="static\customerCart.js"></script>
+{% endblock %}{% block contentStudent %}
 <body>
   <div class="food_item">
     {% for item in items %}
     <div id="{{item.sno}}" class="view_list">
       <br />
       <img src="static/food_pics/{{item.image}}" width="400" height="250" />
-      <p>{{item.item_name}}</p> <br>
+      <p>{{item.item_name}}</p>
+      <br />
       <p>Rs.{{item.item_price}}</p>
-      <p>Quantity : {{item.quantity}}</p><br>
+      <p>Quantity : {{item.quantity}}</p>
+      <br />
       <a href="/updateQuantity/{{item.sno}}">Update Quantity</a>
 
       {% if opp %} {% if sno|string == item.sno|string %}
@@ -31,7 +26,6 @@
 
       <br /><br />
     </div>
-
   </div>
   {% endfor %}
   <center><a class="btn" href="/bill">Proceed to Payment</a></center>
@@ -45,5 +39,4 @@
     });
   </script>
 </body>
-
-</html>
+{% endblock %}
