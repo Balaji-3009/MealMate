@@ -664,7 +664,7 @@ transition: 0.2s;
 }
 .price {
   font-size: 20px;
-  margin-left: 20%;
+  /* margin-left: 20%; */
 }
 .price span {
   /* margin-left: 60%; */
