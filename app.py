@@ -181,7 +181,10 @@ def index():
 
 @app.route('/employee')
 def employee():
-    return render_template('main.html')
+    if current_user.is_authenticated and current_user.role == 'employee':
+        return render_template('main.html')
+    else:
+        return render_template('emp_only.html')
 
 @app.route('/signup',methods=['GET','POST'])
 def Signup():
