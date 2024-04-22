@@ -289,7 +289,7 @@ def uploadMenu():
             return redirect(url_for('viewMenu'))
         return render_template('uploadMenu.html',form=form)
     else:
-        return 'Entry Restricted! Only Employees Allowed'
+        return render_template('emp_only.html')
 
 def addimage(uploaded_pic,item_name):
     
@@ -314,7 +314,7 @@ def deleteMenu(id):
         
         return redirect(url_for('viewMenu'))
     else:
-        return 'Entry Restricted! Only Employees Allowed'
+        return render_template('emp_only.html')
 
 @app.route('/updateTime/<id>',methods=['GET','POST'])
 @login_required
@@ -349,7 +349,7 @@ def final_updateTime():
             return redirect(url_for('viewMenu'))
         return render_template('viewMenu.html', form = form,op=op,compMenu = compMenu,id=id)
     else:
-        return 'Entry Restricted! Only Employees Allowed'
+        return render_template('emp_only.html')
 
 @app.route('/viewMenu')
 @login_required
@@ -359,7 +359,7 @@ def viewMenu():
         op=0
         return render_template('viewMenu.html', compMenu=compMenu,op=op)
     else:
-        return 'Entry Restricted! Only Employees Allowed'
+        return render_template('emp_only.html')
 
 
 @app.route('/customer')
@@ -368,7 +368,7 @@ def customer():
     if current_user.is_authenticated and current_user.role == 'customer':
         return render_template('customer_main.html')
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
 
 
 @app.route('/customer_menu')
@@ -380,7 +380,7 @@ def customer_menu():
         compMenu = menu.query.filter(menu.abs_from_time<=current_time,menu.abs_to_time>=current_time).all()
         return render_template('customer_menu.html',compMenu=compMenu)
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
     
     
 @app.route('/add_to_cart/<id>')
@@ -411,9 +411,9 @@ def Cart():
         if count>0:
             return render_template('cart.html',items=items,opp=opp)
         else:
-            return "Cart Empty"
+            return render_template('empty_cart.html')
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
     
     
 @app.route('/updateQuantity/<sno>',methods=['GET','POST'])
@@ -443,7 +443,7 @@ def final_updateQuantity():
             return redirect(url_for('Cart'))
         return render_template('cart.html', form = form,opp=opp,items = items,sno=sno)
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
 
 
 @app.route('/deleteCart/<sno>')
@@ -456,7 +456,7 @@ def deleteCart(sno):
         
         return redirect(url_for('Cart'))
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
     
     
 @app.route('/bill')
@@ -471,7 +471,7 @@ def bill():
         return render_template('bill.html',items = items,email=email,final_price=final_price)
         
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
 
 
 @app.route('/placeOrder')
@@ -503,10 +503,10 @@ def placeOrder():
         db.session.add(ordId)
         db.session.commit()
         
-        return redirect(url_for('customer'))
+        return render_template('payment_success.html')
         
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
 
 
 @app.route('/viewOrders')
@@ -524,7 +524,7 @@ def viewOrders():
             list_of_orders.append([id,email,items,price,time])
         return render_template('viewOrders.html',list_of_orders = list_of_orders)
     else:
-        return 'Entry Restricted! Only Employees Allowed'
+        return render_template('emp_only.html')
 
 
 @app.route('/pendingOrders')
@@ -543,7 +543,7 @@ def pendingOrders():
             list_of_orders.append([email,items,price,id,time])
         return render_template('pendingOrders.html',list_of_orders = list_of_orders)
     else:
-        return 'Only for Customers'
+        return render_template('cust_only.html')
 
 
 @app.route('/deleteOrder/<id>')
@@ -555,7 +555,7 @@ def deleteOrder(id):
         db.session.commit()
         return redirect(url_for('viewOrders'))
     else:
-        return 'Entry Restricted! Only Employees Allowed'
+        return render_template('emp_only.html')
 
 
 @app.route('/initOrderId')
