@@ -516,16 +516,25 @@ def placeOrder():
 @login_required
 def viewOrders():
     if current_user.is_authenticated and current_user.role == 'employee':
-        list_of_orders = []
-        all_orders = orders.query.all()
-        for order_ in all_orders:
-            id = order_.id
-            email = order_.email
-            items = json.loads(order_.order)
-            price = order_.total_price
-            time = order_.time
-            list_of_orders.append([id,email,items,price,time])
-        return render_template('viewOrders.html',list_of_orders = list_of_orders)
+        orders_ = orders.query.all()
+        count = 0
+        for i in orders_:
+            count+=1
+        if count>0:
+            list_of_orders = []
+            all_orders = orders.query.all()
+            
+            for order_ in all_orders:
+                id = order_.id
+                email = order_.email
+                items = json.loads(order_.order)
+                price = order_.total_price
+                time = order_.time
+                list_of_orders.append([id,email,items,price,time])
+            return render_template('viewOrders.html',list_of_orders = list_of_orders)
+        else:
+            return 'NO Orders'
+        
     else:
         return render_template('emp_only.html')
 
