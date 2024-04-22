@@ -8,7 +8,7 @@ body {
 .navigation {
   /* background-image: url("images/nav-background.jpg"); */
   width: 100%;
-  height: 78px;
+  height: 95px;
   background-color: rgba(0, 0, 0, 0.899);
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
@@ -176,7 +176,7 @@ transition: 0.2s;
 /* Side BAr */
 .sidebar {
   background-color: rgb(194, 193, 231);
-  margin-top: 75px;
+  margin-top: 95px;
   position: fixed;
   top: 0px;
   left: -4000px;
@@ -255,6 +255,7 @@ transition: 0.2s;
 
   .logOut {
     margin-right: 30px;
+    margin-bottom: 30px;
   }
 
   .logOut button {
@@ -268,6 +269,7 @@ transition: 0.2s;
   .sidebar {
     width: 30%;
     padding-top: 10px;
+    margin-top: 100px;
   }
 
   .sidebar li {
@@ -510,14 +512,16 @@ transition: 0.2s;
   }
 
   /* Adjustments for .name-input and .price-input */
-  .name-input, .price-input {
+  .name-input,
+  .price-input {
     width: 100%;
     float: none;
     margin-bottom: 20px;
   }
 
   /* Adjustments for .img-input and .time-input */
-  .img-input, .time-input {
+  .img-input,
+  .time-input {
     width: 100%;
     float: none;
     margin-bottom: 20px;
@@ -584,7 +588,8 @@ transition: 0.2s;
 
 /* View Orders Page */
 .viewOrdersBody {
-  background: linear-gradient(to right, #3494e6, #ec6ead);
+  /* background: linear-gradient(to right, #3494e6, #ec6ead); */
+  background-color: whitesmoke;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -606,6 +611,10 @@ transition: 0.2s;
   /* background: linear-gradient(to right top, #ff758c, #ff7eb3, #845ec2); */
   color: black !important;
 }
+.viewOrders:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .title {
   color: black;
   font-weight: 600;
